@@ -1,4 +1,7 @@
 defmodule TetrisWeb.Tetris.Legend do
+  @moduledoc """
+  Module that is a LiveView component of the legend for tetris game.
+  """
   use TetrisWeb, :live_component
 
   def mount(socket) do

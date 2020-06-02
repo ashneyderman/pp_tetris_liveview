@@ -1,9 +1,8 @@
 defmodule Tetris.GameController do
-  use GenServer
-
   @moduledoc """
   This module is the game controller.
   """
+  use GenServer
 
   alias Tetris.Core.{Field, Shape, ShapeRepository}
   alias Tetris.GameController
@@ -36,7 +35,7 @@ defmodule Tetris.GameController do
     Phoenix.PubSub.subscribe(Tetris.PubSub, "game_controllers")
   end
 
-  @spec all_current_games() :: [{term() | :undefined, Supervisor.child() | :restarting, :worker | :supervisor,:supervisor.modules()}]
+  @spec all_current_games() :: [{term() | :undefined, Supervisor.child() | :restarting, :worker | :supervisor, :supervisor.modules()}]
   def all_current_games() do
     all_nodes = [Node.self() | Node.list()]
     all_nodes |> Enum.reduce([], fn node, acc ->
@@ -225,14 +224,6 @@ defmodule Tetris.GameController do
     {:noreply, next_state}
   end
 
-  defp while_can_move_down(field, current_shape, shape_x, shape_y, displacement) do
-    if Field.can_move?(field, current_shape, shape_x, shape_y + displacement) do
-      while_can_move_down(field, current_shape, shape_x, shape_y, displacement + 1)
-    else
-      displacement - 1
-    end
-  end
-
   def handle_info(
       {:key_press, :space},
       %GameController{
@@ -242,17 +233,17 @@ defmodule Tetris.GameController do
       } = state
     ) do
 
-  next_state =
-    if Field.can_move?(field, current_shape, shape_x + 1, shape_y) do
-      final_delta_y = while_can_move_down(field, current_shape, shape_x, shape_y, 1)
-      %GameController{state | current_shape_coord: [shape_x, shape_y + final_delta_y]}
-    else
-      state
-    end
+    next_state =
+      if Field.can_move?(field, current_shape, shape_x + 1, shape_y) do
+        final_delta_y = while_can_move_down(field, current_shape, shape_x, shape_y, 1)
+        %GameController{state | current_shape_coord: [shape_x, shape_y + final_delta_y]}
+      else
+        state
+      end
 
-  notify_of_change(state, next_state)
+    notify_of_change(state, next_state)
 
-  {:noreply, next_state}
+    {:noreply, next_state}
   end
 
   def handle_info(
@@ -279,11 +270,18 @@ defmodule Tetris.GameController do
   end
 
   def handle_info(msg, state) do
-    IO.inspect(msg, label: "Unhandled message: ")
     {:noreply, state}
   end
 
   # Helpers
+  defp while_can_move_down(field, current_shape, shape_x, shape_y, displacement) do
+    if Field.can_move?(field, current_shape, shape_x, shape_y + displacement) do
+      while_can_move_down(field, current_shape, shape_x, shape_y, displacement + 1)
+    else
+      displacement - 1
+    end
+  end
+
   defp move_shape_down(
          %GameController{current_shape_coord: [shape_x, shape_y], level: level} = state
        ) do

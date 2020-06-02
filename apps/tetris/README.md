@@ -1,3 +1,0 @@
-# Tetris
-
-**TODO: Add description**

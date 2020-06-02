@@ -1,4 +1,7 @@
 defmodule TetrisWeb.TetrisAdminLive do
+  @moduledoc """
+  Administration interface LiveView.
+  """
   use TetrisWeb, :live_view
 
   def mount(_params, _session, socket) do

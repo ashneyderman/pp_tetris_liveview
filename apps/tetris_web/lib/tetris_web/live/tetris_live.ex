@@ -1,4 +1,7 @@
 defmodule TetrisWeb.TetrisLive do
+  @moduledoc """
+  LiveView representation of the game controller.
+  """
   use TetrisWeb, :live_view
 
   @default_cell_height 26 # in pixels

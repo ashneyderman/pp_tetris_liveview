@@ -38,7 +38,6 @@ defmodule Tetris.MixProject do
     [
       {:phoenix_pubsub, "~> 2.0"},
       {:matrix, "~> 0.3.2"},
-      {:credo, "~> 1.1", only: [:dev], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end

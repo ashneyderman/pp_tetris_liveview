@@ -1,4 +1,7 @@
 defmodule TetrisWeb.Tetris.Field do
+  @moduledoc """
+  Field LiveView component used to display content of the tetris field.
+  """
   use TetrisWeb, :live_component
 
   alias Tetris.Core.Shape

@@ -1,4 +1,5 @@
 defmodule TetrisWeb.PageLive do
+  @moduledoc false
   use TetrisWeb, :live_view
 
   @impl true

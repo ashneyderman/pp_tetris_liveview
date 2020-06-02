@@ -1,4 +1,9 @@
 defmodule Tetris.AutoplayAgent do
+  @moduledoc """
+  This module is the autoplay agent for the game of tetris.
+
+  Note, at the moment nothing intelligent is implmented here.
+  """
   use GenServer
 
   def start_with_defaults() do
@@ -31,8 +36,7 @@ defmodule Tetris.AutoplayAgent do
     {:ok, %{game_controller: gc}}
   end
 
-  def handle_info({:state_change,
-                    %Tetris.GameController{
+  def handle_info({:state_change, %Tetris.GameController{
                       game_state: :over
                     }}, state) do
     {:stop, :normal, state}
